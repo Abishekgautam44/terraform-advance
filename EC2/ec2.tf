@@ -54,10 +54,24 @@ resource "aws_security_group" "my_security_group" {
 }
 
 # ec2_instance
+
+
+
 resource "aws_instance" "abi_server" {
+
+#count=3 #creating three intances of identical 
+#OR
+
+  for_each = tomap({
+    "server-automate-micro" = "t2.micro"
+    "server-automate-medium" = "t2.medium"
+  }) #meta argument
+
+  #change the instance_type and tags value using each
+
   key_name        = aws_key_pair.my_key.key_name
   security_groups = [aws_security_group.my_security_group.name]
-  instance_type   = var.ec2_instance_type
+  instance_type   = each.value
   ami             = var.ec2_ami_id
   user_data = file("install_nginx.sh")
 
@@ -66,7 +80,7 @@ resource "aws_instance" "abi_server" {
     volume_type = "gp3"
   }
   tags = {
-    Name = "AA-automate"
+    Name = each.key
   }
 
 }   

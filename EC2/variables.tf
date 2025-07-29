@@ -10,4 +10,4 @@ variable "ec2_ami_id" {
 variable "ebs_storge_size" {
   default = 20
   type = number
-}
+} 
