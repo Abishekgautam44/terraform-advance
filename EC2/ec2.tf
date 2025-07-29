@@ -57,11 +57,12 @@ resource "aws_security_group" "my_security_group" {
 resource "aws_instance" "abi_server" {
   key_name        = aws_key_pair.my_key.key_name
   security_groups = [aws_security_group.my_security_group.name]
-  instance_type   = "t2.micro"
-  ami             = "ami-08a6efd148b1f7504" #amazon_linux_2
+  instance_type   = var.ec2_instance_type
+  ami             = var.ec2_ami_id
+  user_data = file("install_nginx.sh")
 
   root_block_device {
-    volume_size = 15
+    volume_size = var.ebs_storge_size
     volume_type = "gp3"
   }
   tags = {
