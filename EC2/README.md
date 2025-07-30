@@ -115,6 +115,11 @@ terraform state rm aws_key_pair.my_key
 terrafrom import aws_key_pair.my_key <key-pair_id_from_aws>
 
 ```
+we can't keep the terraform.tfsate file on github and s3 alone so we use s3 with DynamoDB to lock the file while someone is accessing it inorder to avoid state conflict.
+
+we used the remote backend to send the terraform state file to the s3 bucket and sync with them.
+
+only if someuser completes the terraform state management only then, others will be able to change the terraform state or configuration files.
 
 
 
