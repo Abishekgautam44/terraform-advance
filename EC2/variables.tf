@@ -14,5 +14,5 @@ variable "ebs_storge_size" {
 
 variable "env" {
   default = "prod"
-  type = "string"
+  type = string
 }

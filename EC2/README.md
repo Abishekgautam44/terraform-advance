@@ -87,6 +87,37 @@ This repository contains Terraform configuration files to **provision an Amazon 
    ```
 
 ---
+## importing resources to terrafrom state from aws
+
+``` bash
+## make a new resource on main.tf with dummy data
+resource "aws_instance" "my_new_instancee" {
+   ami = "Unknown"
+   instance_type = "unknown" 
+}
+ 
+ bash
+ terraform import aws_instance.my_new_instance <Instance-id>
+
+## or import uisng import  block
+ import{
+   to = aws_key_pair.developer
+   id = "developer-key"
+ }
+
+```
+
+## Terraform State Management
+``` bash
+terraform state list
+terraform state show <list_item>
+terraform state rm aws_key_pair.my_key
+terrafrom import aws_key_pair.my_key <key-pair_id_from_aws>
+
+```
+
+
+
 
 ## Cleanup
 
