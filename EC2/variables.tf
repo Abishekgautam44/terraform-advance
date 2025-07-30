@@ -8,6 +8,11 @@ variable "ec2_ami_id" {
 }
 
 variable "ebs_storge_size" {
-  default = 20
+  default = 10
   type = number
 } 
+
+variable "env" {
+  default = "prod"
+  type = "string"
+}

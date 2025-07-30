@@ -66,6 +66,7 @@ resource "aws_instance" "abi_server" {
     "server-automate-micro" = "t2.micro"
     "server-automate-medium" = "t2.medium"
   }) #meta argument
+  depends_on = [ aws_security_group.my_security_group, aws_key_pair.my_key ]
 
   #change the instance_type and tags value using each
 
@@ -76,7 +77,7 @@ resource "aws_instance" "abi_server" {
   user_data = file("install_nginx.sh")
 
   root_block_device {
-    volume_size = var.ebs_storge_size
+    volume_size = var.env == "prod" ? 20 : var.ebs_storge_size # conditional expression
     volume_type = "gp3"
   }
   tags = {
