@@ -1,15 +1,18 @@
 # key pair
 resource "aws_key_pair" "my_key" {
-  key_name   = "terra_key_ec2"
+  key_name   = "${var.env}-terra_key_ec2"
   public_key = file("terra-key-ec2.pub")
+  tags = {
+
+    Environment = var.env
+  }
 }
 
 # vpc and security group
 resource "aws_default_vpc" "default" {
-
 }
 resource "aws_security_group" "my_security_group" {
-  name        = "automate-sg"
+  name        = "${var.env}-automate-sg"
   description = "this will add a TF generated security group"
   vpc_id      = aws_default_vpc.default.id #interpolation
 
@@ -48,7 +51,8 @@ resource "aws_security_group" "my_security_group" {
   }
 
   tags = {
-    Name = "automate-sg"
+    Name = "${var.env}-automate-sg"
+    Environment = var.env
   }
 
 }
@@ -65,7 +69,7 @@ resource "aws_instance" "abi_server" {
   for_each = tomap({
     "server-automate-micro" = "t2.micro"
     "server-automate-medium" = "t2.medium"
-    "server-automate-large" = "te.large"
+    "server-automate-large" = "t2.large"
 
   }) #meta argument
   depends_on = [ aws_security_group.my_security_group, aws_key_pair.my_key ]
