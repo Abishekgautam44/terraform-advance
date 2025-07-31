@@ -65,7 +65,8 @@ resource "aws_instance" "abi_server" {
   for_each = tomap({
     "server-automate-micro" = "t2.micro"
     "server-automate-medium" = "t2.medium"
-    "server-automate-small" = "t2.large"
+    "server-automate-large" = "te.large"
+
   }) #meta argument
   depends_on = [ aws_security_group.my_security_group, aws_key_pair.my_key ]
 
@@ -83,6 +84,7 @@ resource "aws_instance" "abi_server" {
   }
   tags = {
     Name = each.key
+    Environment = var.env
   }
 
 }   
